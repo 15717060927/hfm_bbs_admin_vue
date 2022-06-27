@@ -20,7 +20,7 @@
 
         <!--搜索栏 -->
 
-        <div style="margin-top: 15px;">
+        <div style="margin-top: 15px; padding: 10px 0">
           <el-input v-model="input3" class="input-with-select" placeholder="请输入内容" style="width: 600px">
             <el-select slot="prepend" v-model="select" placeholder="请选择">
               <el-option label="用户ID" value="1"></el-option>
@@ -180,7 +180,9 @@ export default {
       pageSize: 2,
       total: 0,
       banTimeOptionList: ['24小时', '48小时', '1周', '15天', '1个月', '3个月', '6个月'],
-      value: '选择封禁时间'
+      value: '选择封禁时间',
+      input3: '',
+      select: ''
 
     }
 
@@ -286,7 +288,7 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
 .el-container {
   min-height: 100vh
 }
