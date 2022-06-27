@@ -18,7 +18,10 @@
                     <i class="el-icon-s-home"></i>
                     <span slot="title">首页</span>
                 </template>
+                <el-menu-item-group>
+                    <template slot="title" style="position:relative;top:5px;height:200px">首页</template>
 
+                </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
                 <template slot="title">
