@@ -1,0 +1,6 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /*加了这个属性后padding和margin将不再改变元素的宽高*/
+}
