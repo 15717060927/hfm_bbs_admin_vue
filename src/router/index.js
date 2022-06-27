@@ -9,6 +9,7 @@ const routes = [
     path: '/admin',
 
     name: 'admin',
+    redirect:'/admin/index',
     component: () => import(/* webpackChunkName: "about" */ '../views/Base.vue'),
     children:[
       {

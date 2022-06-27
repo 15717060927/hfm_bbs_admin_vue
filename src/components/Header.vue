@@ -5,7 +5,11 @@
   <el-header>
     <div class="collapse">
       <span :class="collapseBtnClass" style="cursor:pointer" @click="collapse"></span>
-      <span class="collapse-text">后台管理系统</span>
+      <el-breadcrumb separator="/" >
+        <el-breadcrumb-item :to="{ path: '/' }">文章管理</el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/">文章审核</a></el-breadcrumb-item>
+
+      </el-breadcrumb>
     </div>
     <div class="nav-icon">
       <i id="person-icon" class="el-icon-s-custom" style="margin-right: 5px"></i>
@@ -53,6 +57,10 @@
         bottom:2px;
         margin-left: 6px;
         font-size:16px;
+    }
+    .collapse .el-breadcrumb{
+      display:inline-block;
+      margin-left:5px;
     }
     .nav-icon{
         height:30px;

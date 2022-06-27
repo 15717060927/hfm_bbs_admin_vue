@@ -1,11 +1,5 @@
 <template>
     <div>
-        <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/' }">文章管理</el-breadcrumb-item>
-            <el-breadcrumb-item><a href="/">文章审核</a></el-breadcrumb-item>
-
-        </el-breadcrumb>
-
         <div class="search-wrapper">
             <div class="search-text" style="width: 50px">查找</div>
             <el-input placeholder="请输入用户名" v-model="uname" class="input-with-select">
@@ -231,6 +225,6 @@
     }
 </script>
 
-<style scoped>
+<style >
 
 </style>

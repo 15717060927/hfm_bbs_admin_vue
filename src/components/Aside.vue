@@ -20,49 +20,31 @@
       </div>
 
 
-      <el-submenu index="1">
-        <template slot="title">
+      <el-menu-item index="/admin/index">
           <i class="el-icon-s-home"></i>
-          <span slot="title" style="">首页</span>
-        </template>
-        <el-menu-item-group>
-
-          <template slot="title">首页</template>
-
-        </el-menu-item-group>
-      </el-submenu>
+          <span slot="title" >首页</span>
 
 
-      <el-submenu index="2">
+      </el-menu-item>
+
+      <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-s-custom"></i>
           <span slot="title">用户管理</span>
         </template>
-        <el-menu-item-group>
-
-          <template slot="title">用户管理</template>
-          <el-menu-item index="/admin/UserInfoManagement" router="">用户信息查看</el-menu-item>
-
-        </el-menu-item-group>
+        <el-menu-item index="/admin/user">用户管理</el-menu-item>
+        <el-menu-item index="/admin/UserInfoManagement">用户信息管理</el-menu-item>
 
       </el-submenu>
-      <el-submenu index="3">
+      <el-submenu index="/admin/article">
         <template slot="title">
           <i class="el-icon-notebook-2"></i>
           <span slot="title">文章管理</span>
         </template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="3-1">选项1</el-menu-item>
-          <el-menu-item index="3-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="3-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="3-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="3-4-1">选项4-1</el-menu-item>
-        </el-submenu>
+
+          <el-menu-item index="/admin/article">文章审核</el-menu-item>
+
+
       </el-submenu>
     </el-menu>
   </el-aside>
