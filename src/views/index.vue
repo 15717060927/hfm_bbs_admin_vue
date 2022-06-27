@@ -1,10 +1,12 @@
 <template>
 
+
 <div>这里是主页</div>
 
 
 </template>
 <style>
+
 
 </style>
 <script>
@@ -14,6 +16,7 @@
 
         }
     };
+
 </script>
 
 <style scoped>

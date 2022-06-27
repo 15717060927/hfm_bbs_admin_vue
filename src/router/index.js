@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/Base.vue'
+
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/admin',
+
     name: 'admin',
     component: () => import(/* webpackChunkName: "about" */ '../views/Base.vue'),
     children:[
@@ -29,10 +30,17 @@ const routes = [
 
 
   },
+
+
   {
-    path:'/index',
-    name:'index',
-    component: ()=> import('../views/index')
+    path: '/admin/UserInfoManagement',
+    name: 'UserInfoManagement',
+    component: () => import('../views/UserInfoManagement')
+  },
+  {
+    path: '/admin/PersonalCenter',
+    name: '/admin/PersonalCenter',
+    component: () => import('../views/PersonalCenter')
   }
 
 ]

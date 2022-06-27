@@ -1,25 +1,19 @@
 <!-- 这个封装的是上层导航栏组件-->
 
 <template>
-    <el-header>
-        <div class="collapse" >
-            <span :class="collapseBtnClass" style="cursor:pointer" @click="collapse"></span>
-            <span class="collapse-text">后台管理系统</span>
-        </div>
-        <div class="nav-icon" >
-            <i class="el-icon-s-custom" id="person-icon" style="margin-right: 5px"></i>
-            <span>吴磊</span>
-            <el-dropdown >
-                <i class="el-icon-arrow-down" style="margin-left: 5px" ></i>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>个人信息</el-dropdown-item>
-                    <el-dropdown-item>退出账号</el-dropdown-item>
-                </el-dropdown-menu>
 
-            </el-dropdown>
-        </div>
+  <el-header>
+    <div class="collapse">
+      <span :class="collapseBtnClass" style="cursor:pointer" @click="collapse"></span>
+      <span class="collapse-text">后台管理系统</span>
+    </div>
+    <div class="nav-icon">
+      <i id="person-icon" class="el-icon-s-custom" style="margin-right: 5px"></i>
+      <span @click="toPersonalCenter">吴磊</span>
 
-    </el-header>
+    </div>
+
+  </el-header>
 
 
 
@@ -28,9 +22,14 @@
 <script>
     export default {
         name: "Header",
-        props:{
-            collapseBtnClass:String,
-            collapse:Function
+        props: {
+            collapseBtnClass: String,
+            collapse: Function
+        },
+        methods: {
+            toPersonalCenter: function () {
+                this.$router.replace('/admin/PersonalCenter')
+            }
         }
     }
 </script>
@@ -49,7 +48,7 @@
         flex:1;
         font-size:18px
     }
-     .collapse .collapse-text{
+    .collapse .collapse-text{
         position:relative;
         bottom:2px;
         margin-left: 6px;
@@ -60,4 +59,7 @@
         line-height: 30px;
         margin-top: 15px
     }
+
 </style>
+
+

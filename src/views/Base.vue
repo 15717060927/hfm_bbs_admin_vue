@@ -1,4 +1,5 @@
 <template>
+
   <el-container style="min-height: 100vh" >
 
       <Aside :is-collapse="isCollapse" :log-text-show="logTextShow" :side-width="sideWidth" />
@@ -10,7 +11,6 @@
       <el-main style="padding-top: 5px;">
 <!--        表示当前页面的子路由在这里展示-->
         <router-view />
-
 
       </el-main>
     </el-container>
@@ -73,6 +73,7 @@
 </style>
 
 <script>
+
   import Aside from "@/components/Aside";
   import Header from "@/components/Header";
   export default {
@@ -117,4 +118,5 @@
     }
 
   };
+
 </script>
