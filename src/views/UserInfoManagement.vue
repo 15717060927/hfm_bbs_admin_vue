@@ -1,24 +1,7 @@
 <template xmlns:el-table="">
-  <el-container style="min-height: 100vh">
 
-    <Aside :is-collapse="isCollapse" :log-text-show="logTextShow" :side-width="sideWidth"/>
+      <el-main style="">
 
-    <el-container>
-      <el-header>
-        <Header :collapse="collapse" :collapse-btn-class="collapseBtnClass"/>
-      </el-header>
-
-      <el-main style="padding-top: 5px;">
-
-
-        <!--头部面包屑-->
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/admin/index' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path:'/admin/UserInfoManagement'}"><a href="/">用户信息查看</a></el-breadcrumb-item>
-
-        </el-breadcrumb>
-
-        <!--搜索栏 -->
 
         <div style="margin-top: 15px; padding: 10px 0">
           <el-input v-model="input3" class="input-with-select" placeholder="请输入内容" style="width: 600px">
@@ -146,13 +129,6 @@
         </div>
 
       </el-main>
-
-
-    </el-container>
-
-
-  </el-container>
-
 </template>
 
 <script>
@@ -364,10 +340,10 @@ export default {
   font-size: medium;
 }
 
-.demo-table-expand .el-form-item label {
-  width: 200px;
-  color: black;
-}
+/*.demo-table-expand .el-form-item label {*/
+/*  width: 200px;*/
+/*  color: black;*/
+/*}*/
 
 
 </style>

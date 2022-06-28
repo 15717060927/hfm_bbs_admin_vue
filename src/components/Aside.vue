@@ -21,28 +21,35 @@
 
 
       <el-menu-item index="/admin/index">
-          <i class="el-icon-s-home"></i>
-          <span slot="title" >首页</span>
+        <i class="el-icon-s-home"></i>
+        <span slot="title">首页</span>
 
 
       </el-menu-item>
 
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-s-custom"></i>
-          <span slot="title">用户管理</span>
-        </template>
-        <el-menu-item index="/admin/user">用户管理</el-menu-item>
-        <el-menu-item index="/admin/UserInfoManagement">用户信息管理</el-menu-item>
+      <!--      <el-submenu index="1">-->
+      <!--        <template slot="title">-->
+      <!--          <i class="el-icon-s-custom"></i>-->
+      <!--          <span slot="title">用户管理</span>-->
+      <!--        </template>-->
+      <!--        <el-menu-item index="/admin/user">用户管理</el-menu-item>-->
+      <!--        <el-menu-item index="/admin/UserInfoManagement">用户信息管理</el-menu-item>-->
 
-      </el-submenu>
+      <!--      </el-submenu>-->
+      <el-menu-item index="/admin/UserInfoManagement">
+        <i class="el-icon-s-home"></i>
+        <span slot="title">用户管理</span>
+
+
+      </el-menu-item>
+
       <el-submenu index="/admin/article">
         <template slot="title">
           <i class="el-icon-notebook-2"></i>
           <span slot="title">文章管理</span>
         </template>
 
-          <el-menu-item index="/admin/article">文章审核</el-menu-item>
+        <el-menu-item index="/admin/article">文章审核</el-menu-item>
 
 
       </el-submenu>
@@ -65,6 +72,6 @@
 
 </script>
 
-<style scoped>
+<style>
 
 </style>

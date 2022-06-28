@@ -18,16 +18,18 @@
 </template>
 
 <style>
- .el-container{
-   min-height: 100vh
- }
-  .menu-logo{
-    height:60px;
-    line-height: 60px;
-    text-align: center
-  }
-  .menu-logo img{
-    width:20px;
+.el-container {
+  min-height: 100vh
+}
+
+.menu-logo {
+  height: 60px;
+  line-height: 60px;
+  text-align: center
+}
+
+.menu-logo img {
+  width: 20px;
     position:relative;
     top:5px;
   }
@@ -74,19 +76,20 @@
 
 <script>
 
-  import Aside from "@/components/Aside";
-  import Header from "@/components/Header";
-  export default {
-    data() {
-      const item = {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      };
+import Aside from "@/components/Aside";
+import Header from "@/components/Header";
 
-      return {
-        collapseBtnClass: 'el-icon-s-fold',
-        isCollapse: false,
+export default {
+  data() {
+    const item = {
+      date: '2016-05-02',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1518 弄'
+    };
+
+    return {
+      collapseBtnClass: 'el-icon-s-fold',
+      isCollapse: false,
         sideWidth: 200,
         logTextShow: true,
       };

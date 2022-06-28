@@ -18,26 +18,26 @@ const routes = [
         component: ()=> import('../views/index.vue')
       },
       {
-        path:'user',
-        name:'user',
-        component: ()=> import('../views/userManage.vue')
+        path: 'user',
+        name: 'user',
+        component: () => import('../views/userManage.vue')
       },
       {
-        path:'article',
-        name:'article',
-        component: ()=> import('../views/articleManage.vue')
+        path: 'article',
+        name: 'article',
+        component: () => import('../views/articleManage.vue')
       },
-      ]
+      {
+        path: 'UserInfoManagement',
+        name: 'UserInfoManagement',
+        component: () => import('../views/UserInfoManagement')
+      }
+
+    ]
 
 
   },
 
-
-  {
-    path: '/admin/UserInfoManagement',
-    name: 'UserInfoManagement',
-    component: () => import('../views/UserInfoManagement')
-  },
   {
     path: '/admin/PersonalCenter',
     name: '/admin/PersonalCenter',

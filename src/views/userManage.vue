@@ -225,6 +225,6 @@
     }
 </script>
 
-<style >
+<style>
 
 </style>
