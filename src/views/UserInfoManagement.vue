@@ -13,8 +13,8 @@
 
         <!--头部面包屑-->
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">用户管理</el-breadcrumb-item>
-          <el-breadcrumb-item><a href="/">用户信息查看</a></el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/admin/index' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path:'/admin/UserInfoManagement'}"><a href="/">用户信息查看</a></el-breadcrumb-item>
 
         </el-breadcrumb>
 
@@ -45,7 +45,7 @@
                 <el-form-item class="el-form-item" label="用户ID">
                   <span>{{ props.row.id }}</span>
                 </el-form-item>
-                <el-form-item label="用户姓名">
+                <el-form-item label="用户登录名">
                   <span>{{ props.row.user_name }}</span>
                 </el-form-item>
                 <el-form-item label="用户昵称">
@@ -173,7 +173,10 @@ export default {
       tableData: [{
         id: '1',
         nick_name: 'wd'
+      }, {
+        id: '2'
       }],
+
 
       showheader: true,
       pageNum: 1,
