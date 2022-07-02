@@ -11,21 +11,41 @@ const routes = [
     name: 'admin',
     redirect:'/admin/index',
     component: () => import(/* webpackChunkName: "about" */ '../views/Base.vue'),
+    meta:{
+      title:'首页'
+    },
     children:[
       {
         path:'index',
         name:'index',
-        component: ()=> import('../views/index.vue')
+        component: ()=> import('../views/index.vue'),
+        meta:{
+          title:''
+        }
       },
       {
         path:'user',
         name:'user',
-        component: ()=> import('../views/userManage.vue')
+        component: ()=> import('../views/userManage.vue'),
+        meta:{
+          title:'用户管理'
+        }
+      },
+      {
+        path: 'UserInfoManagement',
+        name: 'UserInfoManagement',
+        component: () => import('../views/UserInfoManagement'),
+        meta:{
+          title:'用户信息查看'
+        }
       },
       {
         path:'article',
         name:'article',
-        component: ()=> import('../views/articleManage.vue')
+        component: ()=> import('../views/articleManage.vue'),
+        meta:{
+          title:'文章管理'
+        }
       },
       ]
 
@@ -33,11 +53,7 @@ const routes = [
   },
 
 
-  {
-    path: '/admin/UserInfoManagement',
-    name: 'UserInfoManagement',
-    component: () => import('../views/UserInfoManagement')
-  },
+
   {
     path: '/admin/PersonalCenter',
     name: '/admin/PersonalCenter',

@@ -6,15 +6,27 @@
     <div class="collapse">
       <span :class="collapseBtnClass" style="cursor:pointer" @click="collapse"></span>
       <el-breadcrumb separator="/" >
-        <el-breadcrumb-item :to="{ path: '/' }">文章管理</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/">文章审核</a></el-breadcrumb-item>
+        <el-breadcrumb-item
+                :to="{ path: item.path }"
+                v-for="item in breadcrumbList"
+                :key = "item.path"
+
+        >{{item.meta.title}}</el-breadcrumb-item>
+
 
       </el-breadcrumb>
     </div>
-    <div class="nav-icon">
-      <i id="person-icon" class="el-icon-s-custom" style="margin-right: 5px"></i>
-      <span @click="toPersonalCenter">吴磊</span>
+    <div class="nav-icon" >
+      <i class="el-icon-s-custom" id="person-icon" style="margin-right: 5px"></i>
+      <span>吴磊</span>
+      <el-dropdown >
+        <i class="el-icon-arrow-down" style="margin-left: 5px" ></i>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>个人信息</el-dropdown-item>
+          <el-dropdown-item>退出账号</el-dropdown-item>
+        </el-dropdown-menu>
 
+      </el-dropdown>
     </div>
 
   </el-header>
@@ -25,6 +37,16 @@
 
 <script>
     export default {
+      // data(){
+      //   return{
+      //     breadcrumbList:this.$route.matched
+      //   }
+      // },
+      computed:{
+        breadcrumbList(){
+          return this.$route.matched
+        }
+      },
         name: "Header",
         props: {
             collapseBtnClass: String,

@@ -6,7 +6,8 @@ module.exports = defineConfig({
 module.exports = {
   devServer: {
 
-    port: 8081 // 此处修改你想要的端口号
+    port: 8081, // 此处修改你想要的端口号
+    proxy: "http://localhost:8080"
 
   }
 
