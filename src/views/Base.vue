@@ -8,7 +8,7 @@
     <el-header>
       <Header :collapse-btn-class="collapseBtnClass" :collapse="collapse" />
     </el-header>
-      <el-main style="padding-top: 5px; background:#c1eeff;">
+      <el-main style="padding-top: 5px; ">
         <!--        表示当前页面的子路由在这里展示-->
         <router-view/>
 

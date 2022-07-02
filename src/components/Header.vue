@@ -52,12 +52,23 @@
         props: {
             collapseBtnClass: String,
             collapse: Function,
-           realname: String,
+            realname: String,
         },
         methods: {
             toPersonalCenter: function () {
                 this.$router.replace('/admin/PersonalCenter')
-            }
+            },
+          toMessageCenter: function () {
+            this.$router.replace('/admin/MessageCenter')
+          },
+          logout: function () {
+            this.$store.commit("logout")
+            this.$message.success("退出成功")
+
+          },
+          toChangePassword: function () {
+            this.$router.replace('/admin/ChangePassword')
+          },
         }
     }
 </script>
