@@ -16,14 +16,19 @@
 
       </el-breadcrumb>
     </div>
-    <div class="nav-icon" >
-      <i class="el-icon-s-custom" id="person-icon" style="margin-right: 5px"></i>
-      <span>吴磊</span>
-      <el-dropdown >
-        <i class="el-icon-arrow-down" style="margin-left: 5px" ></i>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>个人信息</el-dropdown-item>
-          <el-dropdown-item>退出账号</el-dropdown-item>
+
+
+    <div class="nav-icon">
+      <i id="person-icon" class="el-icon-s-custom" style="margin-right: 5px"></i>
+      <span>{{ realname }}</span>
+      <el-dropdown>
+        <i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+        <el-dropdown-menu slot="dropdown"
+        >
+          <el-dropdown-item @click.native="toPersonalCenter">个人信息</el-dropdown-item>
+          <el-dropdown-item @click.native="toMessageCenter">消息中心</el-dropdown-item>
+          <el-dropdown-item @click.native="toChangePassword">修改密码</el-dropdown-item>
+          <el-dropdown-item divided style="" @click.native="logout">退出账号</el-dropdown-item>
         </el-dropdown-menu>
 
       </el-dropdown>
@@ -37,11 +42,7 @@
 
 <script>
     export default {
-      // data(){
-      //   return{
-      //     breadcrumbList:this.$route.matched
-      //   }
-      // },
+
       computed:{
         breadcrumbList(){
           return this.$route.matched
@@ -50,7 +51,8 @@
         name: "Header",
         props: {
             collapseBtnClass: String,
-            collapse: Function
+            collapse: Function,
+           realname: String,
         },
         methods: {
             toPersonalCenter: function () {
@@ -88,6 +90,15 @@
         height:30px;
         line-height: 30px;
         margin-top: 15px
+    }
+
+    .el-dropdown-link {
+      cursor: pointer;
+      color: #409EFF;
+    }
+
+    .el-icon-arrow-down {
+      font-size: 12px;
     }
 
 </style>

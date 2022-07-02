@@ -8,9 +8,9 @@
     <el-header>
       <Header :collapse-btn-class="collapseBtnClass" :collapse="collapse" />
     </el-header>
-      <el-main style="padding-top: 5px;">
-<!--        表示当前页面的子路由在这里展示-->
-        <router-view />
+      <el-main style="padding-top: 5px; background:#c1eeff;">
+        <!--        表示当前页面的子路由在这里展示-->
+        <router-view/>
 
       </el-main>
     </el-container>
@@ -18,16 +18,18 @@
 </template>
 
 <style>
- .el-container{
-   min-height: 100vh
- }
-  .menu-logo{
-    height:60px;
-    line-height: 60px;
-    text-align: center
-  }
-  .menu-logo img{
-    width:20px;
+.el-container {
+  min-height: 100vh
+}
+
+.menu-logo {
+  height: 60px;
+  line-height: 60px;
+  text-align: center
+}
+
+.menu-logo img {
+  width: 20px;
     position:relative;
     top:5px;
   }
@@ -74,21 +76,19 @@
 
 <script>
 
-  import Aside from "@/components/Aside";
-  import Header from "@/components/Header";
-  export default {
-    data() {
-      const item = {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      };
+import Aside from "@/components/Aside";
+import Header from "@/components/Header";
 
-      return {
-        collapseBtnClass: 'el-icon-s-fold',
-        isCollapse: false,
+export default {
+  data() {
+    const item = {
+    };
+    return {
+      collapseBtnClass: 'el-icon-s-fold',
+      isCollapse: false,
         sideWidth: 200,
         logTextShow: true,
+      admin: {}
       };
     },
     components:{
@@ -97,7 +97,7 @@
     },
     created() {
       //请求分页查询数据
-
+      // this.getAdmin()
 
     },
     methods: {
@@ -115,6 +115,17 @@
         }
 
       },
+
+
+      // getAdmin(){
+      //   let adminRealname = localStorage.getItem("admin") ? JSON.parse(localStorage.getItem("admin")).admin_realname :""
+      //   if(adminRealname){
+      //     this.request.get("/admin/adminRealname").then(res=>{
+      //       this.admin = res.data
+      //         })
+      //   }
+      // }
+
     }
 
   };

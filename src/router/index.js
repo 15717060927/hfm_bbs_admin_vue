@@ -21,15 +21,8 @@ const routes = [
         component: ()=> import('../views/index.vue'),
         meta:{
           title:''
-        }
-      },
-      {
-        path:'user',
-        name:'user',
-        component: ()=> import('../views/userManage.vue'),
-        meta:{
-          title:'用户管理'
-        }
+        },
+
       },
       {
         path: 'UserInfoManagement',
@@ -47,18 +40,28 @@ const routes = [
           title:'文章管理'
         }
       },
-      ]
+      {
+        path: 'PersonalCenter',
+        name: 'PersonalCenter',
+        component: () => import('../views/PersonalCenter')
+      },
+      {
+        path: '/admin/ChangePassword',
+        name: '/admin/ChangePassword',
+        component: () => import('../views/ChangePassword')
+      },
+      {
+        path: '/admin/MessageCenter',
+        name: '/admin/MessageCenter',
+        component: () => import('../views/MessageCenter')
+      }
+
+
+    ]
 
 
   },
 
-
-
-  {
-    path: '/admin/PersonalCenter',
-    name: '/admin/PersonalCenter',
-    component: () => import('../views/PersonalCenter')
-  }
 
 ]
 

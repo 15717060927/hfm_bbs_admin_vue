@@ -12,7 +12,7 @@
              router
              style="min-height:100%;overflow-x:hidden; " text-color="#fff"
 
-    >
+        >
 
       <div class="menu-logo">
         <img alt="" src="../assets/logo.png">
@@ -25,9 +25,9 @@
           <span slot="title" >首页</span>
       </el-menu-item>
 
-      <el-menu-item index="/admin/user">
+      <el-menu-item index="/admin/UserInfoManagement">
         <i class="el-icon-s-custom"></i>
-        <span slot="title" >用户管理</span>
+        <span slot="title">用户管理</span>
       </el-menu-item>
 
       <el-menu-item index="/admin/article">

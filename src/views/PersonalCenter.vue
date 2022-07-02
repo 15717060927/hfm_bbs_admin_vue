@@ -1,28 +1,51 @@
 <template>
-  <el-container style="min-height: 100vh">
-
-    <Aside :is-collapse="isCollapse" :log-text-show="logTextShow" :side-width="sideWidth"/>
-
-    <el-container>
-      <el-header>
-        <Header :collapse="collapse" :collapse-btn-class="collapseBtnClass"/>
-      </el-header>
-
-      <el-main style="padding-top: 5px;">
 
 
-      </el-main>
+  <el-main>
+    <div class="img">
+      <el-card shadow="always"
+               style="width: 600px;
+                     margin-left: 25%;
+                     margin-top: 4%">
+        <el-avatar
+            :size="100"
+            :src="circleUrl"
+            style="text-align: center; margin-left: 42%"
+        ></el-avatar>
+        <el-form label-width="80px"
+                 size="small"
+                 style="padding: 15px">
+          <el-form-item label="员工编号">
+            <el-input v-model="form.admin_id" auto-complete="off" disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="用户名">
+            <el-input v-model="form.admin_name" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名">
+            <el-input v-model="form.admin_realname" auto-complete="off" disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="电话">
+            <el-input v-model="form.tel" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱">
+            <el-input v-model="form.email" auto-complete="off"></el-input>
+          </el-form-item>
+
+        </el-form>
+
+        <div style="text-align: center">
+          <el-button type="primary" @click="save">确定并保存</el-button>
+          <el-button style="" type="danger" @click="logout">退出登录</el-button>
+        </div>
+      </el-card>
+    </div>
 
 
-    </el-container>
+  </el-main>
 
-
-  </el-container>
 </template>
 
 <script>
-import Aside from "@/components/Aside";
-import Header from "@/components/Header";
 
 export default {
   name: "PersonalCenter",
@@ -32,16 +55,20 @@ export default {
       collapseBtnClass: 'el-icon-s-fold',
       sideWidth: 200,
       logTextShow: true,
+      circleUrl: '',
+      form: '',
+      admin: localStorage.getItem("admin") ? JSON.parse(localStorage.getItem("admin")) : {}
     }
 
 
   },
 
-  components: {
-    Aside,
-    Header
-  },
   created() {
+    const adminName = this.admin.admin_name;
+    if (!adminName) {
+      this.$message.error("当前无法获取用户信息")
+      return
+    }
     this.load();
   },
   methods: {
@@ -66,13 +93,32 @@ export default {
       this.pageNum = pageNum
       this.load()
     },
+    save() {
+      this.request.post("/admin/save", this.form).then(res => {
+            if (res) {
+              this.$message.success("保存成功")
+              this.load();
+            } else {
+              this.$message.error("保存失败,请重试")
+            }
+          }
+      )
+    },
+    logout() {
+
+    },
+    load() {
+      this.request.get("http://localhost:8080/admin/loadPersonalInfo", {}
+      )
+
+    }
 
 
   }
 }
 </script>
 
-<style scoped>
+<style>
 .el-container {
   min-height: 100vh
 }
