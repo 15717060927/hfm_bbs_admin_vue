@@ -31,18 +31,29 @@ const routes = [
         path: 'UserInfoManagement',
         name: 'UserInfoManagement',
         component: () => import('../views/UserInfoManagement')
+      },
+      {
+        path: 'PersonalCenter',
+        name: 'PersonalCenter',
+        component: () => import('../views/PersonalCenter')
+      },
+      {
+        path: '/admin/ChangePassword',
+        name: '/admin/ChangePassword',
+        component: () => import('../views/ChangePassword')
+      },
+      {
+        path: '/admin/MessageCenter',
+        name: '/admin/MessageCenter',
+        component: () => import('../views/MessageCenter')
       }
+
 
     ]
 
 
   },
 
-  {
-    path: '/admin/PersonalCenter',
-    name: '/admin/PersonalCenter',
-    component: () => import('../views/PersonalCenter')
-  }
 
 ]
 

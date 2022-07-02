@@ -19,7 +19,8 @@
             :data="tableData"
             border
             @selection-change="handleSelectionChange">
-          <el-table-column type="expand">
+          <el-table-column type="expand"
+          >
             <template slot-scope="props">
               <el-form class="demo-table-expand"
                        inline
@@ -29,10 +30,10 @@
                   <span>{{ props.row.id }}</span>
                 </el-form-item>
                 <el-form-item label="用户登录名">
-                  <span>{{ props.row.user_name }}</span>
+                  <span>{{ props.row.userName }}</span>
                 </el-form-item>
                 <el-form-item label="用户昵称">
-                  <span>{{ props.row.nick_name }}</span>
+                  <span>{{ props.row.nickName }}</span>
                 </el-form-item>
                 <el-form-item label="用户电话">
                   <span>{{ props.row.tel }}</span>
@@ -41,43 +42,43 @@
                   <span>{{ props.row.email }}</span>
                 </el-form-item>
                 <el-form-item label="用户性别">
-                  <span>{{ props.row.sex }}</span>
+                  <span>{{ !(props.row.sex) ? '男' : '女' }}</span>
                 </el-form-item>
                 <el-form-item label="个人简介">
                   <span>{{ props.row.description }}</span>
                 </el-form-item>
-                <el-form-item label="个人简介">
-                  <span>{{ props.row.status }}</span>
+                <el-form-item label="用户状态">
+                  <span>{{ mapStatus[props.row.status] }}</span>
+                </el-form-item>
+                <el-form-item label="封禁时间">
+                  <span>{{ !(props.row.status == 0) ? '无封禁时间' : props.row.lockTime }}</span>
                 </el-form-item>
                 <el-form-item label="粉丝数">
-                  <span>{{ props.row.follower_count }}</span>
+                  <span>{{ props.row.followerCount }}</span>
                 </el-form-item>
                 <el-form-item label="关注数">
-                  <span>{{ props.row.followee_count }}</span>
+                  <span>{{ props.row.followeeCount }}</span>
                 </el-form-item>
                 <el-form-item label="上次登录时间">
-                  <span>{{ props.row.last_login_time }}</span>
+                  <span>{{ props.row.lastLoginTime }}</span>
                 </el-form-item>
                 <el-form-item label="注册时间">
-                  <span>{{ props.row.signup_time }}</span>
+                  <span>{{ props.row.signupTime }}</span>
                 </el-form-item>
                 <el-form-item label="更新文章时间">
-                  <span>{{ props.row.update_time }}</span>
-                </el-form-item>
-                <el-form-item label="未知变量">
-                  <span>{{ props.row.lock_time }}</span>
+                  <span>{{ props.row.updatePostTime }}</span>
                 </el-form-item>
                 <el-form-item label="文章总数">
-                  <span>{{ props.row.post_count }}</span>
+                  <span>{{ props.row.postCount }}</span>
                 </el-form-item>
                 <el-form-item label="所关注语言领域">
-                  <span>{{ props.row.language_field }}</span>
-                </el-form-item>
-                <el-form-item label="所关注科技领域">
-                  <span>{{ props.row.tech_field }}</span>
+                  <span>{{ props.row.languageField }}</span>
                 </el-form-item>
                 <el-form-item label="总浏览量">
-                  <span>{{ props.row.total_view }}</span>
+                  <span>{{ props.row.totalView }}</span>
+                </el-form-item>
+                <el-form-item label="总点赞量">
+                  <span>{{ props.row.stars }}</span>
                 </el-form-item>
               </el-form>
             </template>
@@ -87,20 +88,22 @@
               prop="id">
           </el-table-column>
           <el-table-column
-              label="用户姓名"
-              prop="user_name">
+              label="用户登录名"
+              prop="userName">
           </el-table-column>
           <el-table-column
               label="用户昵称"
-              prop="nick_name">
+              prop="nickName">
           </el-table-column>
           <el-table-column
               label="用户状态"
+              :formatter="statusFormatter"
               prop="status">
           </el-table-column>
           <el-table-column
               label="上次登录时间"
-              prop="last_login_time">
+              prop="lastLoginTime"
+              width="300px">
           </el-table-column>
           <el-table-column
               label="封禁用户"
@@ -142,22 +145,37 @@ export default {
   data() {
     const item = {};
     return {
+      mapStatus: {
+        0: '用户已被封禁',
+        1: '用户状态正常',
+        2: '用户账号已注销'
+      },
       isCollapse: false,
       collapseBtnClass: 'el-icon-s-fold',
       sideWidth: 200,
       logTextShow: true,
-      tableData: [{
-        id: '1',
-        nick_name: 'wd'
-      }, {
-        id: '2'
-      }],
-
-
+      tableData: [],
+      userName: "",
+      id: '',
+      lastLoginTime: '',
+      status: '',
+      nickName: '',
+      tel: '',
+      sex: '',
+      followerCount: "",
+      followeeCount: '',
+      description: "",
+      signupTime: '',
+      lockTime: '',
+      postCount: "",
+      updatePostTime: "",
+      languageField: "",
+      stars: '',
+      totalView: '',
       showheader: true,
       pageNum: 1,
       pageSize: 2,
-      total: 0,
+      total: 3,
       banTimeOptionList: ['24小时', '48小时', '1周', '15天', '1个月', '3个月', '6个月'],
       value: '选择封禁时间',
       input3: '',
@@ -190,20 +208,35 @@ export default {
 
     },
     handleSizeChange(pageSize) {
+      console.log(pageSize)
       this.pageSize = pageSize
       this.load()
     },
     handleCurrentChange(pageNum) {
+      console.log(pageNum)
       this.pageNum = pageNum
       this.load()
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+    //状态显示
+    statusFormatter(row, column) {
+      const status = row.status;
+      if (status == 0) {
+        return "用户已被封禁"
+      } else if (status == 1) {
+        return "用户状态正常"
+      } else if (status == 2) {
+        return "用户账号已注销"
+      }
+
+    },
+
     //处理设置封禁时间
     handleSetLockTime() {
       const h = this.$createElement;
-      const that = this
+      const that = this;
       this.$msgbox(
           {
             title: '选择该用户被封禁的时间',
@@ -239,19 +272,27 @@ export default {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             // beforeClose()
-          }).then(_ => {
+          }).then(res => {
         //成功操作
-      }).catch(msg => {
-        //失败操作
+      }).catch(function (error) {
+        this.$message({message: "操作失败" + error, type: "error"});
       });
     },
 
     load() {
-      this.request.get("http://localhost:8080/user/search_page", {
+      this.request.get("http://localhost:8080/admin/userManagement/loadPage", {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
-          uname: this.uname,
+          userName: this.userName,
+          status: this.status,
+          nickName: this.nickName,
+          lastLoginTime: this.lastLoginTime,
+          id: this.id,
+          tel: this.tel,
+          followerCount: this.followerCount,
+          description: this.description,
+          stars: this.stars
 
         }
       }).then(res => {
@@ -259,6 +300,11 @@ export default {
         this.tableData = res.records
         this.total = res.total
       })
+          .catch(function (error) {
+            this.$message({message: "获取失败" + error, type: "error"});
+          })
+
+
     },
 
 
@@ -340,10 +386,10 @@ export default {
   font-size: medium;
 }
 
-/*.demo-table-expand .el-form-item label {*/
-/*  width: 200px;*/
-/*  color: black;*/
-/*}*/
+.demo-table-expand .el-form-item label {
+  width: 200px;
+  color: black;
+}
 
 
 </style>
