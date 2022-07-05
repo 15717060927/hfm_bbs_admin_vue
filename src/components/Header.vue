@@ -25,6 +25,7 @@
         <i class="el-icon-arrow-down" style="margin-left: 5px"></i>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="toPersonalCenter">个人信息</el-dropdown-item>
+          <el-dropdown-item @click.native="toChangePassword">修改密码</el-dropdown-item>
           <el-dropdown-item divided style="" @click.native="logout">退出账号</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -37,35 +38,42 @@
 </template>
 
 <script>
+  import utils from "@/utils/utils";
     export default {
 
-      computed: {
-        breadcrumbList() {
+      computed:{
+        breadcrumbList(){
           return this.$route.matched
         }
       },
-      name: "Header",
-      data() {
-        return {
-          notification_unread: null
+        name: "Header",
+        props: {
+            collapseBtnClass: String,
+            collapse: Function,
+            realname: String,
+
+        },
+        methods: {
+            toPersonalCenter: function () {
+                this.$router.replace('/admin/PersonalCenter')
+            },
+          logout() {
+            this.request.post('/user/logout',{"userName": this.realname}).then(res=>{
+              if (this.utils.isRequestSuccess(res.data)) {
+                this.utils.removeObjectFromLocalStorage("user")
+                this.$message.success("成功登出")
+                window.location.reload()
+              } else {
+                this.$message.error("登出失败")
+              }
+            }).catch(err => {
+              console.log(err)
+            })
+          },
+          toChangePassword: function () {
+            this.$router.replace('/admin/ChangePassword')
+          },
         }
-      },
-      props: {
-        collapseBtnClass: String,
-        collapse: Function,
-        realname: String,
-      },
-      methods: {
-        toPersonalCenter: function () {
-          this.$router.replace('/admin/PersonalCenter')
-        },
-        logout: function () {
-          this.$store.commit("logout")
-          this.$message.success("退出成功")
-
-        },
-
-      }
     }
 </script>
 

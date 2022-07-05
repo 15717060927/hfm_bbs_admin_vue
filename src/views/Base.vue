@@ -6,7 +6,7 @@
 
     <el-container>
     <el-header>
-      <Header :collapse-btn-class="collapseBtnClass" :collapse="collapse" />
+      <Header :collapse-btn-class="collapseBtnClass" :collapse="collapse" :realname="admin.adminRealname" />
     </el-header>
       <el-main style="padding-top: 5px; ">
         <!--        表示当前页面的子路由在这里展示-->
@@ -88,7 +88,11 @@ export default {
       isCollapse: false,
         sideWidth: 200,
         logTextShow: true,
-      admin: {}
+      admin:{
+        adminRealname:'',
+        avatar:'',
+
+      },
       };
     },
     components:{
@@ -98,7 +102,11 @@ export default {
     created() {
       //请求分页查询数据
       // this.getAdmin()
-
+      if (this.utils.getObjectFromLocalStorage("user")) {
+        this.admin.adminRealname = this.utils.getObjectFromLocalStorage("user").adminRealname;
+        this.admin.avatar = this.utils.getObjectFromLocalStorage("user").avatar;
+        this.hasLogin = true
+      }
     },
     methods: {
       //点击收缩按钮触发收缩函数

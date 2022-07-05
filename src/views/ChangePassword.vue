@@ -4,72 +4,84 @@
              style="width: 600px;
                      margin-left: 25%;
                      margin-top: 4%">
-      <el-form ref="pass" :model="form" :rules="rules" label-width="120px" size="small" style="margin-top: 20px">
-        <el-form-item label="输入当前密码">
-          <el-input v-model="form.password" auto-complete="off" show-password></el-input>
+      <el-form :rules="rules">
+        <el-form-item label="输入您的当前密码">
+          <el-input v-model="oldPwd" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="输入新密码">
-          <el-input v-model="form.newPwd" auto-complete="off" show-password></el-input>
+        <el-form-item label="输入您的新密码">
+          <el-input v-model="newPwd" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="确认新密码">
-          <el-input v-model="form.confirmPwd" auto-complete="off" show-password></el-input>
+        <el-form-item label="确认您的新密码">
+          <el-input v-model="againPwd" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div style="text-align: center">
-        <el-button type="danger" @click="save">确认修改</el-button>
+        <el-button type="danger" @click="submit">确认修改</el-button>
       </div>
     </el-card>
   </el-main>
 </template>
 
 <script>
+  import { Md5 } from 'ts-md5'
 export default {
   name: "ChangePassword",
   data() {
+    const equalToOldPassword = (rule, value, callback) => {
+      if (this.initialPwd !== Md5.hashStr("oldPwd").toUpperCase()) {
+        callback(new Error("输入的密码错误"));
+      } else {
+        callback();
+      }
+    };
+    const equalToPwd = (rule, value, callback) => {
+      if (this.newPwd !== this.againPwd) {
+        callback(new Error("两次输入的密码不一致"));
+      } else {
+        callback();
+      }
+    };
     return {
-      form: {},
-      admin: localStorage.getItem("admin") ? JSON.parse(localStorage.getItem("admin")) : {},
+      oldPwd: '',
+      newPwd: '',
+      againPwd: '',
+      initialPwd: '',
       rules: {
-        password: [
-          {required: true, message: '请输入原密码', trigger: 'blur'},
-          {min: 9, message: '长度不少于9位，不超过32位', trigger: 'blur'}
+        oldPwd: [
+          {required: true, message: "旧密码不能为空", trigger: "blur"},
+          {required: true, validator: equalToOldPassword, trigger: "blur"}
         ],
         newPwd: [
-          {required: true, message: '长度不少于9位，不超过32位', trigger: 'blur'},
-          {min: 9, message: '', trigger: 'blur'}
+          {required: true, message: "新密码不能为空", trigger: "blur"},
+          {min: 6, max: 20, message: "长度在 6 到 20 个字符", trigger: "blur"}
         ],
-        confirmPwd: [
-          {required: true, message: '长度不少于9位，不超过32位', trigger: 'blur'},
-          {min: 9, message: '', trigger: 'blur'}
-        ],
+        againPwd: [
+          {required: true, message: "确认密码不能为空", trigger: "blur"},
+          {required: true, validator: equalToPwd, trigger: "blur"}
+        ]
       }
+
     }
 
   },
   created() {
-    this.form.adminName = this.admin.adminName
+    if (this.utils.getObjectFromLocalStorage("user")) {
+      this.initialPwd = this.utils.getObjectFromLocalStorage("user").password;
+    }
+    ;
   },
   methods: {
-    save() {
-      this.$refs.pass.validate((valid) => {
+    submit() {
+      this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.newPwd !== this.form.confirmPwd)
-            this.$message.error("两次输入的密码不一致")
-          return false
+            // this.request.get()
         }
-        this.request.post("/admin/password", this.form).then(res => {
-          if (res.success) {
-            this.$message.success('修改成功')
+      });
+    },
 
-          } else {
-            this.$message.error('修改失败')
-          }
-        })
-      })
 
-    }
+  },
 
-  }
 
 }
 </script>
