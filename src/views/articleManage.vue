@@ -57,7 +57,6 @@
                         <el-table-column prop="cover" label="封面" width="140">
                             <template slot-scope="scope">
                                 <img :src="scope.row.cover" style="width:140px;height:80px"></img>
-
                             </template>
                         </el-table-column>
                         <el-table-column prop="title" label="标题" width="125" >
@@ -225,39 +224,40 @@
 </template>
 
 <script>
-    // fade/zoom 等
-    import 'element-ui/lib/theme-chalk/base.css';
-    // collapse 展开折叠
-    import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
-    import Vue from 'vue'
-    Vue.component(CollapseTransition.name, CollapseTransition)
-    export default {
-        name: "articleManage",
-        data(){
-            return{
-                drawer:false,
-                show:false,
-                formLabelWidth:'100px',
-                title:'',
-                status:null,
-                category:null,
-                activeName:'first',
-                total:0,
-                tableData: [],
-                multipleSelection: [],
-                pageNum:1,
-                pageSize:2,
-                checkboxGroup1:[],
+// fade/zoom 等
+import 'element-ui/lib/theme-chalk/base.css';
+// collapse 展开折叠
+import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
+import Vue from 'vue'
 
-            }
+Vue.component(CollapseTransition.name, CollapseTransition)
+export default {
+  name: "articleManage",
+  data() {
+    return {
+      drawer: false,
+      show: false,
+      formLabelWidth: '100px',
+      title: '',
+      status: null,
+      category: null,
+      activeName: 'first',
+      total: 0,
+      tableData: [],
+      multipleSelection: [],
+      pageNum: 1,
+      pageSize: 2,
+      checkboxGroup1: [],
+
+    }
 
 
-        },
-        created() {
-            //请求分页查询数据
-            this.load()
+  },
+  created() {
+    //请求分页查询数据
+    this.load()
 
-        },
+  },
 
         methods:{
             handleSizeChange(pageSize){

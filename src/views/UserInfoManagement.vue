@@ -4,14 +4,33 @@
 
 
         <div style="margin-top: 15px; padding: 10px 0">
-          <el-input v-model="input3" class="input-with-select" placeholder="请输入内容" style="width: 600px">
-            <el-select slot="prepend" v-model="select" placeholder="请选择">
-              <el-option label="用户ID" value="1"></el-option>
-              <el-option label="用户姓名" value="2"></el-option>
-              <el-option label="用户昵称" value="3"></el-option>
-            </el-select>
-            <el-button slot="append" icon="el-icon-search" type="primary"></el-button>
-          </el-input>
+          <el-input v-model="id" class="input-with-select" placeholder="请输入用户ID"
+                    style="width: 200px;padding: 10px"></el-input>
+          <el-input v-model="userName" class="input-with-select" placeholder="请输入用户登录名"
+                    style="width: 200px;padding: 10px"></el-input>
+          <el-input v-model="nickName" class="input-with-select" placeholder="请输入用户昵称"
+                    style="width: 200px;padding: 10px"></el-input>
+          <el-button slot="append" icon="el-icon-search" type="primary" @click="load">查询</el-button>
+          <el-button slot="append" icon="el-icon-refresh" type="primary" @click="reset">重置</el-button>
+        </div>
+
+        <div style="margin-top:20px;margin-left:35px">
+          <el-button size="" type="primary" @click="cb">
+            <span v-if="show ==true">收起筛选</span>
+            <span v-if="show ==false">展开筛选</span>
+          </el-button>
+          <el-collapse-transition>
+            <div v-if="show" class="testshow" style="margin-top: 10px;">
+              <span>用户状态</span>
+              <el-radio-group v-model="status" style="margin-left:20px">
+                <el-radio-button label="">全部</el-radio-button>
+                <el-radio-button label="0">封禁中</el-radio-button>
+                <el-radio-button label="1">正常</el-radio-button>
+                <el-radio-button label="2">已注销</el-radio-button>
+              </el-radio-group>
+            </div>
+          </el-collapse-transition>
+
         </div>
 
         <!--用户信息展示 -->
@@ -19,13 +38,11 @@
             :data="tableData"
             border
             @selection-change="handleSelectionChange">
-          <el-table-column type="expand"
-          >
+          <el-table-column type="expand">
             <template slot-scope="props">
               <el-form class="demo-table-expand"
                        inline
-                       label-position="left"
-              >
+                       label-position="left">
                 <el-form-item class="el-form-item" label="用户ID">
                   <span>{{ props.row.id }}</span>
                 </el-form-item>
@@ -51,7 +68,7 @@
                   <span>{{ mapStatus[props.row.status] }}</span>
                 </el-form-item>
                 <el-form-item label="封禁时间">
-                  <span>{{ !(props.row.status == 0) ? '无封禁时间' : props.row.lockTime }}</span>
+                  <span>{{ (props.row.status == 0) ? props.row.lockTime : '无封禁时间' }}</span>
                 </el-form-item>
                 <el-form-item label="粉丝数">
                   <span>{{ props.row.followerCount }}</span>
@@ -83,37 +100,26 @@
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column
-              label="用户ID"
-              prop="id">
-          </el-table-column>
-          <el-table-column
-              label="用户登录名"
-              prop="userName">
-          </el-table-column>
-          <el-table-column
-              label="用户昵称"
-              prop="nickName">
-          </el-table-column>
-          <el-table-column
-              label="用户状态"
-              :formatter="statusFormatter"
-              prop="status">
-          </el-table-column>
-          <el-table-column
-              label="上次登录时间"
-              prop="lastLoginTime"
-              width="300px">
-          </el-table-column>
-          <el-table-column
-              label="封禁用户"
-              prop="set_lock_time">
+          <el-table-column label="用户ID" prop="id"></el-table-column>
+          <el-table-column label="用户登录名" prop="userName"></el-table-column>
+          <el-table-column label="用户头像" prop="avatar">
             <template slot-scope="scope">
-
-              <el-button size="medium" type="danger" @click="handleSetLockTime">
-                封禁用户
+              <img :src="scope.row.avatar" style="width: 100px;height: 100px "></img>
+            </template>
+          </el-table-column>
+          <el-table-column label="用户昵称" prop="nickName"></el-table-column>
+          <el-table-column :formatter="statusFormatter" label="用户状态" prop="status">
+          </el-table-column>
+          <el-table-column label="上次登录时间" prop="lastLoginTime" width="300px"></el-table-column>
+          <el-table-column label="封禁用户" prop="set_lock_time">
+            <template slot-scope="scope">
+              <el-button v-if="scope.row.status==1" size="medium" type="danger"
+                         @click="handleSetLockTime(scope.row.id)">封禁用户
               </el-button>
-
+              <el-button v-if="scope.row.status==0" size="medium" type="success" @click="handleSetUnlock(scope.row.id)">
+                解封用户
+              </el-button>
+              <el-button v-if="scope.row.status==2" disabled="userRevoked" size="medium" type="info">用户已注销</el-button>
             </template>
 
           </el-table-column>
@@ -135,8 +141,6 @@
 </template>
 
 <script>
-import Aside from "@/components/Aside";
-import Header from "@/components/Header";
 
 
 export default {
@@ -157,39 +161,24 @@ export default {
       tableData: [],
       userName: "",
       id: '',
-      lastLoginTime: '',
-      status: '',
+      status: null,
       nickName: '',
-      tel: '',
-      sex: '',
-      followerCount: "",
-      followeeCount: '',
-      description: "",
-      signupTime: '',
       lockTime: '',
-      postCount: "",
-      updatePostTime: "",
-      languageField: "",
-      stars: '',
-      totalView: '',
+      languageField: '',
       showheader: true,
       pageNum: 1,
       pageSize: 2,
-      total: 3,
-      banTimeOptionList: ['24小时', '48小时', '1周', '15天', '1个月', '3个月', '6个月'],
-      value: '选择封禁时间',
-      input3: '',
-      select: ''
+      total: null,
+      select: '',
+      show: '',
+      userRevoked: true
 
     }
 
 
   },
 
-  components: {
-    Aside,
-    Header
-  },
+
   created() {
     this.load();
   },
@@ -217,8 +206,14 @@ export default {
       this.pageNum = pageNum
       this.load()
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
+    handleSelectionChange(select) {
+      var _this = this
+      _this.select = select;
+      console.log(_this.select)
+      return _this.select
+    },
+    cb() {
+      this.show = !this.show;
     },
     //状态显示
     statusFormatter(row, column) {
@@ -234,79 +229,58 @@ export default {
     },
 
     //处理设置封禁时间
-    handleSetLockTime() {
-      const h = this.$createElement;
-      const that = this;
-      this.$msgbox(
-          {
-            title: '选择该用户被封禁的时间',
-            message: h('el-select',
-                {
-                  props: {
-                    value: that.value,
-                    filterable: true,
-                  },
-                  ref: 'selectView',
-                  on: {
-                    change: e => {
-                      that.value = e
-                      that.$refs.selectView.value = e  // select下拉框值改变，回显到页面上
-                    },
-                  },
-                },
-                [
-                  this.banTimeOptionList.map(it => {
-                    return h('el-option', {
-                      props: {
-                        label: it,
-                        key: it,
-                        value: it,
-                      },
-                    });
-                  })
-                ]
-            ),
-            center: true,
-            showCancelButton: true,
-            closeOnClickModal: false,
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            // beforeClose()
-          }).then(res => {
-        //成功操作
-      }).catch(function (error) {
-        this.$message({message: "操作失败" + error, type: "error"});
-      });
+    handleSetLockTime(id) {
+      this.request.post("/admin/userManagement/lock/" + id).then(res => {
+        if (res.success) {
+          this.$message.success(res.msg)
+          this.load()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+
+    },
+    //解封
+    handleSetUnlock(id) {
+      this.request.post("/admin/userManagement/unlock/" + id).then(res => {
+        if (res.success) {
+          this.$message.success(res.msg)
+          this.load()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
 
+    //重置
+    reset: function () {
+      this.id = null
+      this.userName = null
+      this.nickName = null
+      this.load()
+    },
+
+
     load() {
-      this.request.get("http://localhost:8080/admin/userManagement/loadPage", {
+      this.request.get("/admin/userManagement/loadPage", {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
           userName: this.userName,
-          status: this.status,
           nickName: this.nickName,
-          lastLoginTime: this.lastLoginTime,
           id: this.id,
-          tel: this.tel,
-          followerCount: this.followerCount,
-          description: this.description,
-          stars: this.stars
+          status: this.status
 
         }
       }).then(res => {
+        console.log(this.status)
         console.log(res)
-        this.tableData = res.records
-        this.total = res.total
+        this.tableData = res.data.records
+        this.total = res.data.total
+        console.log(this.total)
       })
-          .catch(function (error) {
-            this.$message({message: "获取失败" + error, type: "error"});
-          })
 
-
-    },
-
+    }
 
   }
 }
@@ -387,8 +361,11 @@ export default {
 }
 
 .demo-table-expand .el-form-item label {
-  width: 200px;
+  width: 110px;
   color: black;
+  margin-left: 5px;
+
+
 }
 
 

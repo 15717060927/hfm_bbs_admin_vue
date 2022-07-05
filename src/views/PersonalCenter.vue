@@ -7,11 +7,12 @@
                style="width: 600px;
                      margin-left: 25%;
                      margin-top: 4%">
+
+        <el-button circle style="margin-left: 90%" @cilck="gotoArticleManage"><i class="el-icon-bell"></i></el-button>
         <el-avatar
             :size="100"
-            :src="circleUrl"
-            style="text-align: center; margin-left: 42%"
-        ></el-avatar>
+            :src="form.avatar"
+            style="text-align: center; margin-left: 42%"></el-avatar>
         <el-form label-width="80px"
                  size="small"
                  style="padding: 15px">
@@ -55,8 +56,7 @@ export default {
       collapseBtnClass: 'el-icon-s-fold',
       sideWidth: 200,
       logTextShow: true,
-      circleUrl: '',
-      form: '',
+      form: {},
       admin: localStorage.getItem("admin") ? JSON.parse(localStorage.getItem("admin")) : {}
     }
 
@@ -64,55 +64,40 @@ export default {
   },
 
   created() {
-    const adminName = this.admin.admin_name;
-    if (!adminName) {
-      this.$message.error("当前无法获取用户信息")
-      return
-    }
-    this.load();
+    this.getUser().then(res => {
+      console.log(res)
+      this.form = res
+    })
   },
   methods: {
-    collapse() {
-      this.isCollapse = !this.isCollapse;
-      if (this.isCollapse) {
-        this.sideWidth = 64
-        this.collapseBtnClass = "el-icon-s-unfold"
-        this.logTextShow = false
-      } else {
-        this.sideWidth = 200
-        this.collapseBtnClass = "el-icon-s-fold"
-        this.logTextShow = true
-      }
+    async getUser() {
+      return (await this.request.get("/admin/PersonalCenter/" + this.admin.id)).data
+    },
+
+    show() {
 
     },
-    handleSizeChange(pageSize) {
-      this.pageSize = pageSize
-      this.load()
+    gotoArticleManage: function () {
+      this.$router.replace('/admin/article')
     },
-    handleCurrentChange(pageNum) {
-      this.pageNum = pageNum
-      this.load()
-    },
+
     save() {
-      this.request.post("/admin/save", this.form).then(res => {
-            if (res) {
-              this.$message.success("保存成功")
-              this.load();
-            } else {
-              this.$message.error("保存失败,请重试")
-            }
-          }
-      )
+      this.request.post("/admin/savePersonalInfo", this.form).then(res => {
+        if (res) {
+          this.$message.success("保存成功")
+
+          this.getUser().then(res => {
+            res.token = JSON.parse(localStorage.getItem("admin")).token
+            localStorage.setItem("admin", JSON.stringify(res))
+          })
+        } else {
+          this.$message.error("保存失败,请重试")
+        }
+      })
     },
     logout() {
 
     },
-    load() {
-      this.request.get("http://localhost:8080/admin/loadPersonalInfo", {}
-      )
-
-    }
-
 
   }
 }
