@@ -35,9 +35,9 @@ const routes = [
       {
         path:'article',
         name:'article',
-        component: ()=> import('../views/articleManage.vue'),
-        meta:{
-          title:'文章管理'
+        component: () => import('../views/articleManage.vue'),
+        meta: {
+          title: '文章管理'
         }
       },
       {
@@ -45,18 +45,11 @@ const routes = [
         name: 'PersonalCenter',
         component: () => import('../views/PersonalCenter')
       },
-      {
-        path: '/admin/ChangePassword',
-        name: '/admin/ChangePassword',
-        component: () => import('../views/ChangePassword')
-      },
-      {
-        path: '/admin/MessageCenter',
-        name: '/admin/MessageCenter',
-        component: () => import('../views/MessageCenter')
-      }
-
-
+      // {
+      //   path: '/admin/ChangePassword',
+      //   name: '/admin/ChangePassword',
+      //   component: () => import('../views/ChangePassword')
+      // },
     ]
 
 

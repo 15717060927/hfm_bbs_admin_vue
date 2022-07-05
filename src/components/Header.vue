@@ -23,14 +23,10 @@
       <span>{{ realname }}</span>
       <el-dropdown>
         <i class="el-icon-arrow-down" style="margin-left: 5px"></i>
-        <el-dropdown-menu slot="dropdown"
-        >
+        <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="toPersonalCenter">个人信息</el-dropdown-item>
-          <el-dropdown-item @click.native="toMessageCenter">消息中心</el-dropdown-item>
-          <el-dropdown-item @click.native="toChangePassword">修改密码</el-dropdown-item>
           <el-dropdown-item divided style="" @click.native="logout">退出账号</el-dropdown-item>
         </el-dropdown-menu>
-
       </el-dropdown>
     </div>
 
@@ -43,33 +39,33 @@
 <script>
     export default {
 
-      computed:{
-        breadcrumbList(){
+      computed: {
+        breadcrumbList() {
           return this.$route.matched
         }
       },
-        name: "Header",
-        props: {
-            collapseBtnClass: String,
-            collapse: Function,
-            realname: String,
-        },
-        methods: {
-            toPersonalCenter: function () {
-                this.$router.replace('/admin/PersonalCenter')
-            },
-          toMessageCenter: function () {
-            this.$router.replace('/admin/MessageCenter')
-          },
-          logout: function () {
-            this.$store.commit("logout")
-            this.$message.success("退出成功")
-
-          },
-          toChangePassword: function () {
-            this.$router.replace('/admin/ChangePassword')
-          },
+      name: "Header",
+      data() {
+        return {
+          notification_unread: null
         }
+      },
+      props: {
+        collapseBtnClass: String,
+        collapse: Function,
+        realname: String,
+      },
+      methods: {
+        toPersonalCenter: function () {
+          this.$router.replace('/admin/PersonalCenter')
+        },
+        logout: function () {
+          this.$store.commit("logout")
+          this.$message.success("退出成功")
+
+        },
+
+      }
     }
 </script>
 
