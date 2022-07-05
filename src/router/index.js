@@ -50,18 +50,17 @@ const routes = [
         name: '/admin/ChangePassword',
         component: () => import('../views/ChangePassword')
       },
-      {
-        path: '/admin/MessageCenter',
-        name: '/admin/MessageCenter',
-        component: () => import('../views/MessageCenter')
-      }
+
 
 
     ]
 
-
   },
-
+  {
+    path:'/admin/login',
+    name:'登录',
+    component:()=>import('../views/login')
+  }
 
 ]
 

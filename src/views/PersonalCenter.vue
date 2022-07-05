@@ -9,26 +9,26 @@
                      margin-top: 4%">
         <el-avatar
             :size="100"
-            :src="circleUrl"
+            :src="url"
             style="text-align: center; margin-left: 42%"
         ></el-avatar>
         <el-form label-width="80px"
                  size="small"
                  style="padding: 15px">
           <el-form-item label="员工编号">
-            <el-input v-model="form.admin_id" auto-complete="off" disabled="true"></el-input>
+            <el-input v-model="admin.adminId" auto-complete="off" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="用户名">
-            <el-input v-model="form.admin_name" auto-complete="off"></el-input>
+            <el-input v-model="admin.adminName" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="姓名">
-            <el-input v-model="form.admin_realname" auto-complete="off" disabled="true"></el-input>
+            <el-input v-model="admin.adminRealname" auto-complete="off" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="电话">
-            <el-input v-model="form.tel" auto-complete="off"></el-input>
+            <el-input v-model="admin.tel" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="邮箱">
-            <el-input v-model="form.email" auto-complete="off"></el-input>
+            <el-input v-model="admin.email" auto-complete="off"></el-input>
           </el-form-item>
 
         </el-form>
@@ -56,20 +56,33 @@ export default {
       sideWidth: 200,
       logTextShow: true,
       circleUrl: '',
-      form: '',
-      admin: localStorage.getItem("admin") ? JSON.parse(localStorage.getItem("admin")) : {}
+      admin:{
+         adminId:'',
+         adminName:'',
+         adminRealname:'',
+         tel:'',
+         email:'',
+        avatar:''
+      },
+      url:require('@/static/avatar.jpg'),
+
     }
 
 
   },
 
   created() {
-    const adminName = this.admin.admin_name;
-    if (!adminName) {
-      this.$message.error("当前无法获取用户信息")
-      return
+
+    // this.load();
+    if (this.utils.getObjectFromLocalStorage("user")) {
+      this.admin.adminId = this.utils.getObjectFromLocalStorage("user").adminId;
+      this.admin.adminName = this.utils.getObjectFromLocalStorage("user").userName;
+      this.admin.adminRealname = this.utils.getObjectFromLocalStorage("user").adminRealname;
+      this.admin.tel= this.utils.getObjectFromLocalStorage("user").tel;
+      this.admin.email = this.utils.getObjectFromLocalStorage("user").email;
+      this.admin.avatar = this.utils.getObjectFromLocalStorage("user").avatar;
+      this.hasLogin = true
     }
-    this.load();
   },
   methods: {
     collapse() {
@@ -85,27 +98,19 @@ export default {
       }
 
     },
-    handleSizeChange(pageSize) {
-      this.pageSize = pageSize
-      this.load()
-    },
-    handleCurrentChange(pageNum) {
-      this.pageNum = pageNum
-      this.load()
-    },
-    save() {
-      this.request.post("/admin/save", this.form).then(res => {
-            if (res) {
-              this.$message.success("保存成功")
-              this.load();
-            } else {
-              this.$message.error("保存失败,请重试")
-            }
-          }
-      )
-    },
-    logout() {
 
+    logout() {
+      this.request.post('/user/logout',{"userName": this.admin.adminName}).then(res=>{
+        if (this.utils.isRequestSuccess(res.data)) {
+          this.utils.removeObjectFromLocalStorage("user")
+          this.$message.success("成功登出")
+          window.location.reload()
+        } else {
+          this.$message.error("登出失败")
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     },
     load() {
       this.request.get("http://localhost:8080/admin/loadPersonalInfo", {}
