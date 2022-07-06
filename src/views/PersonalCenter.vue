@@ -112,10 +112,13 @@ export default {
         console.log(err)
       })
     },
-    load() {
-      this.request.get("http://localhost:8080/admin/loadPersonalInfo", {}
-      )
-
+    save(){
+      this.request.post("/admin/adminInfo", this.admin).then(res=> {
+        console.log(res)
+        if(res.data) {
+          this.$message.success("修改成功")
+        }
+      })
     }
 
 

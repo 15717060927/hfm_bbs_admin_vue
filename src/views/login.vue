@@ -140,13 +140,13 @@
         overflow: hidden;
         background-color: white;
         border-radius: 5px;
-        margin-top:100px;
+        margin-top:250px;
         background-color: rgb(235,238,245);
         opacity: 80%;
     }
 
     .login-panel-right {
-      margin-top:100px;
+      margin-top:250px;
         margin-left:0;
         width:400px;
         height:400px;

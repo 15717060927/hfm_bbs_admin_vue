@@ -172,10 +172,7 @@ export default {
       select: '',
       show: '',
       userRevoked: true
-
     }
-
-
   },
 
 
@@ -231,11 +228,11 @@ export default {
     //处理设置封禁时间
     handleSetLockTime(id) {
       this.request.post("/admin/userManagement/lock/" + id).then(res => {
-        if (res.success) {
-          this.$message.success(res.msg)
+        if (res.data.success) {
+          this.$message.success(res.data.msg)
           this.load()
         } else {
-          this.$message.error(res.msg)
+          this.$message.error(res.data.msg)
         }
       })
 
@@ -243,11 +240,11 @@ export default {
     //解封
     handleSetUnlock(id) {
       this.request.post("/admin/userManagement/unlock/" + id).then(res => {
-        if (res.success) {
-          this.$message.success(res.msg)
+        if (res.data.success) {
+          this.$message.success(res.data.msg)
           this.load()
         } else {
-          this.$message.error(res.msg)
+          this.$message.error(res.data.msg)
         }
       })
     },
@@ -267,7 +264,7 @@ export default {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
           userName: this.userName,
-          nickName: this.nickName,
+          userNickname: this.nickName,
           id: this.id,
           status: this.status
 
@@ -275,8 +272,8 @@ export default {
       }).then(res => {
         console.log(this.status)
         console.log(res)
-        this.tableData = res.data.records
-        this.total = res.data.total
+        this.tableData = res.data.data.records
+        this.total = res.data.data.total
         console.log(this.total)
       })
 
