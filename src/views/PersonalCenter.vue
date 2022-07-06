@@ -73,7 +73,7 @@ export default {
 
   created() {
 
-    // this.load();
+
     if (this.utils.getObjectFromLocalStorage("user")) {
       this.admin.adminId = this.utils.getObjectFromLocalStorage("user").adminId;
       this.admin.adminName = this.utils.getObjectFromLocalStorage("user").userName;

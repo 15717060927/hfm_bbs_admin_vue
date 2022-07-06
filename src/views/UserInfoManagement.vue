@@ -37,6 +37,7 @@
         <el-table
             :data="tableData"
             border
+            :header-cell-style="headClass"
             @selection-change="handleSelectionChange">
           <el-table-column type="expand">
             <template slot-scope="props">
@@ -102,7 +103,7 @@
           </el-table-column>
           <el-table-column label="用户ID" prop="id"></el-table-column>
           <el-table-column label="用户登录名" prop="userName"></el-table-column>
-          <el-table-column label="用户头像" prop="avatar">
+          <el-table-column label="用户头像" prop="avatar" width="120px">
             <template slot-scope="scope">
               <img :src="scope.row.avatar" style="width: 100px;height: 100px "></img>
             </template>
@@ -110,7 +111,11 @@
           <el-table-column label="用户昵称" prop="nickName"></el-table-column>
           <el-table-column :formatter="statusFormatter" label="用户状态" prop="status">
           </el-table-column>
-          <el-table-column label="上次登录时间" prop="lastLoginTime" width="300px"></el-table-column>
+          <el-table-column label="上次登录时间" prop="lastLoginTime" width="300px">
+            <template slot-scope="scope">
+             {{scope.row.lastLoginTime | dateFormate}}
+            </template>
+          </el-table-column>
           <el-table-column label="封禁用户" prop="set_lock_time">
             <template slot-scope="scope">
               <el-button v-if="scope.row.status==1" size="medium" type="danger"
@@ -197,6 +202,9 @@ export default {
       console.log(pageSize)
       this.pageSize = pageSize
       this.load()
+    },
+    headClass(){
+      return 'background:#DCDCDC'
     },
     handleCurrentChange(pageNum) {
       console.log(pageNum)
