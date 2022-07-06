@@ -73,7 +73,7 @@ export default {
 
   created() {
 
-    // this.load();
+
     if (this.utils.getObjectFromLocalStorage("user")) {
       this.admin.adminId = this.utils.getObjectFromLocalStorage("user").adminId;
       this.admin.adminName = this.utils.getObjectFromLocalStorage("user").userName;
@@ -112,9 +112,15 @@ export default {
         console.log(err)
       })
     },
-    load() {
-      this.request.get("http://localhost:8080/admin/loadPersonalInfo", {}
-      )
+    save(){
+      this.request.post("/admin/adminInfo",this.admin).then(res=>{
+        console.log(res.data)
+         if(res.data.success){
+           this.$message.success("修改成功")
+         }
+      })
+
+
 
     }
 
